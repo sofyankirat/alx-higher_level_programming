@@ -1,25 +1,14 @@
 #!/usr/bin/node
-class Rectangle {
-  constructor (w, h) {
-    if (w > 0 && h > 0) {
-      this.width = w;
-      this.height = h;
-    }
-  }
+const request = require('request');
+const baseUrl = 'https://swapi-api.hbtn.io/api/films';
 
-  /**
-   * @property {method} print - prints the rectangle using the character X
-   * @returns void
-   */
-  print () {
-    for (let i = 0; i < this.height; i++) {
-      let s = '';
-      for (let j = 0; j < this.width; j++) {
-        s += 'X';
-      }
-      console.log(s);
-    }
-  }
-}
+//  first argument is the movie ID
+const movieId = process.argv[2];
 
-module.exports = Rectangle;
+request(`${baseUrl}/${movieId}/`, (error, response, body) => {
+  if (error) {
+    console.log(error);
+  }
+  const json = JSON.parse(body);
+  console.log(json.title);
+});
